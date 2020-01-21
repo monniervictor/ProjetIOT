@@ -1,0 +1,109 @@
+// Affectation des broches
+
+#define AN A0 // broche de sortie du module
+#define AN A1
+#define AN A2
+
+int valeurF;
+int echantillonF=10;
+unsigned long sommeF=0;
+unsigned long moyenneF;
+unsigned long previousMillis = 0;
+const unsigned long BLINK_INTERVAL = 1000;
+unsigned long currentMillis = millis();
+unsigned long millis();
+bool FouA = 0;
+
+
+int valeurA;
+int echantillon=10;
+unsigned long somme=0;
+unsigned long moyenne;
+
+
+
+void setup()
+{
+Serial.begin(9600); // initialisation de la liaison série
+Serial.println(F("*** PRESS 'T' to begin with the flame"));
+}
+
+void loop()
+{
+  
+  
+  ///////////////////////////////////////////////cas de la flamme///////////////////////////////////////////////////
+
+if ( FouA=1)
+for (int i=0; i<10; i++)
+{
+valeurF=analogRead(A0); // conversion AN
+sommeF=sommeF+valeurF; // somme de 10 échantillons
+moyenneF=sommeF/echantillonF; // calcul de la moyenne de 10 échantillons
+}
+sommeF=0;
+Serial.print("ValeurFlamme=");
+Serial.println(moyenneF);
+
+
+//if (currentMillis - previousMillis1 >= BLINK_INTERVAL) {
+//previousMillis1 = currentMillis;
+if (valeurF>420)
+{
+Serial.println("attention au feu");
+}
+else
+{
+Serial.println("tout est bon, pas de feu");
+  
+}
+delay(1000);
+
+/*                                                                                                         */
+////////////////////////////////////////////cas air /////////////////////////////////////////////////////////
+
+
+for (int i=0; i<10; i++)
+{
+valeurA=analogRead(A2); // conversion AN
+somme=somme+valeurA; // somme de 10 échantillons
+moyenne=somme/echantillon; // calcul de la moyenne de 10 échantillons
+delay(10);
+}
+somme=0;
+Serial.print("ValeurAir=");
+Serial.println(moyenne);
+if (valeurA>600)
+{
+Serial.println("La qualite de l air est mediocre");
+}
+else
+{
+Serial.println("La qualite de l air est bonne");
+}
+delay(1000);
+
+
+/****************** Choix entre flamme et air via Serial Commands ***************************/
+
+  if ( Serial.available() )
+  {
+    char c = toupper(Serial.read());
+    if ( c == 'T' && FouA == 0 ){      
+      Serial.println(F("*** CHANGING TO TRANSMIT ROLE -- PRESS 'R' TO SWITCH BACK"));
+      FouA = 1;                  // Become the primary transmitter (Air)
+     
+    
+   }else
+    if ( c == 'R' && FouA == 1 ){
+      Serial.println(F("*** CHANGING TO RECEIVE Flame -- PRESS 'T' TO SWITCH BACK"));      
+       FouA = 0;                // Become the primary receiver ( Flame)
+       Serial.println(F("Bravo"));
+    }
+  }
+}
+
+
+/**************************** Envoie des données sur Python   ******************************/
+
+
