@@ -1,0 +1,170 @@
+
+
+#from PIL import Image, ImageTk  
+#from Tkinter import *
+
+
+
+##lecture serial 
+import serial
+import time
+#serial_port=serial.Serial( port ="COM1", baudrate = 9600)
+#serial_port.readline( )
+s=time.localtime()
+print("coucou");
+print(s);
+serial_port = serial.Serial("/dev/ttyACM0",9600);
+previousMillis = 0;
+#millis();
+BLINK_INTERVAL = 10000;
+#currentMillis = millis();
+#print(millis);
+#print (serial_port)
+#    print ("vérifier port serial")
+    
+    
+    ##### initialisation #####
+rawdata=[]; 
+cpt=0;
+
+#####"gestion des données"
+#currentMillis=millis();
+#if ( currentMillis - previousMillis >= BLINK_INTERVAL) :
+
+while cpt<5:
+    rawdata.append(str(serial_port.readline()))
+    cpt+=1
+    print (rawdata)
+
+#def clean(L):     #L is a list
+#    newl=[]       #initialising the new list
+#    for i in range(len(L)):
+#        temp=L[i][2:]
+#        newl.append(temp[:-5])
+#    return newl
+
+#cleandata=clean(rawdata)
+
+def write(L):
+    file=open("data.txt",mode='w')
+    for i in range(len(L)):
+        file.write(L[i]+'\n')
+    file.close()
+
+
+#write(cleandata)
+write(rawdata)
+
+#######verif port##################
+#class MainWindow(QMainWindow):
+#   def __init__(self, parent=None):
+#       #  Chargement de l'interface de la fenêtre principale
+#       QMainWindow.__init__(self, parent)
+#       self.ui = IDRA_Ui.Ui_MainWindow()
+#       self.ui.setupUi(self)
+#       #[...]
+#       self.port = serial.Serial(str(SelectedPort))  # Connexion
+#       self.ThreadPortisOpen = PortisOpen(self.port)
+#       self.ThreadPortisOpen.jobDone.connect(self.colost)
+#       self.ThreadPortisOpen.start()
+#
+#class PortisOpen(QThread):    #Signaux
+#    jobDone = pyqtSignal(bool)
+#
+#    def __init__(self, port):
+#        QThread.__init__(self)
+#        self.port = port
+#
+#    def run(self):
+#        while True:
+#            time.sleep(0.5)
+#            try:
+#                Wating = self.port.read()
+#            except:
+#                self.jobDone.emit(True)
+#                break
+
+
+
+
+
+
+
+#
+#import matplotlib.pyplot as plt
+#cleandata=clean(rawdata)
+#
+#def write(L):
+#    file=open("data.txt",mode='w')
+#    for i in range(len(L)):
+#        file.write(L[i]+'\n')
+#    file.close()
+#
+#write(cleandata)
+#
+#vals,temps=np.loadtxt('data.txt',delimiter=';',unpack=True)
+#plt.plot(temps,vals)
+#plt.show()
+#
+
+
+
+
+#
+########################## INTERFACE GRAPHIQUE #####################
+#
+#
+#
+#
+#winHeight=360
+#winWidth=640
+#
+#canvas = Canvas(root, width = winWidth, height = winHeight)  
+#canvas.create_image(0,0, anchor = NW, image=imgBackground) 
+#canvas.pack()  
+#
+#canvas.grid(row=1,column=0,rowspan=gridColumns,columnspan=gridColumns)
+#
+#
+#
+#
+##===========================#
+#####définition du menu#######
+##============================#
+#
+#
+#
+#def highLightMenu(label):
+#    label.config(fg="red")
+#    if debug >= 8 :
+#        print "highLightMenu"
+#
+#def lowLightMenu(label):
+#    label.config(fg="black")
+#    
+#quitMenuLabel = createMenuLabel(root, "Quit Game", 3)
+#quitMenuLabel.bind("<Button-1>", lambda e: quitGame())
+#quitMenuLabel.bind("<Enter>", lambda e: highLightMenu(quitMenuLabel))
+#quitMenuLabel.bind("<Leave>", lambda e: lowLightMenu(quitMenuLabel))    
+#quitMenuLabel.lower()    
+#    
+#     
+#    
+#    # =======================================
+## Menu général
+## =======================================
+#def openMainMenu() :
+#    global inGame
+#    
+#    inGame = 0
+#    
+#    mainMenuTitle.lift()
+#    newGameLabel.lift()
+#    highScoresLabel.lift()
+#    quitMenuLabel.lift()
+#    
+#def closeMainMenu() :
+#    mainMenuTitle.lower()
+#    newMenuLabel.lower()
+#    ValeursLabel.lower()
+#    quitMenuLabel.lower()
