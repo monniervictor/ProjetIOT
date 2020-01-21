@@ -1,1 +1,7 @@
-Coucou
+Dans cette partie nous intérressons particulièrement a la partie arduino.
+C'est a dire la récupération des différentes données leur traitement ainsi que leur envoie via Nrf a BBB.
+Nous avons aussi cherché a transférer les données qu'on récupère dans un fichier txt via Python.
+
+Dans cette partie nous avons 2 codes :
+le premier est sous l'environement arduino et va gérer la carte méga 2560 (initialisation pin, serial etc), le capteur flame click,le capteur air quality click, le module Nrf. 
+le second code va lui permettre a notre environnement python de récupérer les données de la liaison sérial et créer un fichier txt avec notre base de données.
