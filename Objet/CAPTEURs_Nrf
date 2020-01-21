@@ -3,16 +3,19 @@
 #define AN A0 // broche de sortie du module
 #define AN A1
 #define AN A2
+#include <SPI.h>
+#include "RF24.h"
 
 int valeurF;
 int echantillonF=10;
 unsigned long sommeF=0;
 unsigned long moyenneF;
 unsigned long previousMillis = 0;
-const unsigned long BLINK_INTERVAL = 1000;
-unsigned long currentMillis = millis();
 unsigned long millis();
-bool FouA = 0;
+const unsigned long BLINK_INTERVAL = 10000;
+unsigned long currentMillis = millis();
+
+int FouA = 0;
 
 
 int valeurA;
@@ -20,12 +23,10 @@ int echantillon=10;
 unsigned long somme=0;
 unsigned long moyenne;
 
-
-
 void setup()
 {
 Serial.begin(9600); // initialisation de la liaison série
-Serial.println(F("*** PRESS 'T' to begin with the flame"));
+Serial.println(F("*** PRESS 'F' to begin with Flame, 'A' with air or PRESS 'P' to begin with both"));
 }
 
 void loop()
@@ -33,8 +34,18 @@ void loop()
   
   
   ///////////////////////////////////////////////cas de la flamme///////////////////////////////////////////////////
+currentMillis=millis();
+/*String my_name;
+ if ( Serial.available() )
+ {
+    my_name = Serial.readStringUntil('\n');
+    Serial.println("Nice to meet you, " + my_name + "!");
+ }*/
+if (FouA == 1)
+{
 
-if ( FouA=1)
+if ( currentMillis - previousMillis >= BLINK_INTERVAL)
+{
 for (int i=0; i<10; i++)
 {
 valeurF=analogRead(A0); // conversion AN
@@ -44,7 +55,7 @@ moyenneF=sommeF/echantillonF; // calcul de la moyenne de 10 échantillons
 sommeF=0;
 Serial.print("ValeurFlamme=");
 Serial.println(moyenneF);
-
+Serial.println(currentMillis);
 
 //if (currentMillis - previousMillis1 >= BLINK_INTERVAL) {
 //previousMillis1 = currentMillis;
@@ -58,10 +69,15 @@ Serial.println("tout est bon, pas de feu");
   
 }
 delay(1000);
-
+previousMillis=currentMillis;
+}
+}
 /*                                                                                                         */
 ////////////////////////////////////////////cas air /////////////////////////////////////////////////////////
-
+if (FouA == 0)
+{
+if ( currentMillis - previousMillis >= BLINK_INTERVAL)
+{
 
 for (int i=0; i<10; i++)
 {
@@ -82,28 +98,95 @@ else
 Serial.println("La qualite de l air est bonne");
 }
 delay(1000);
+previousMillis = currentMillis ;
+}
+}
 
+/**************************************** Cas air ET Flamme **********************************/
+
+if (FouA == 2)
+{
+if ( currentMillis - previousMillis >= BLINK_INTERVAL)
+{
+
+for (int i=0; i<10; i++)
+{
+valeurA=analogRead(A2); // conversion AN
+somme=somme+valeurA; // somme de 10 échantillons
+moyenne=somme/echantillon; // calcul de la moyenne de 10 échantillons
+delay(10);
+}
+somme=0;
+Serial.print("ValeurAir=");
+Serial.println(moyenne);
+if (valeurA>600)
+{
+Serial.println("La qualite de l air est mediocre");
+}
+else
+{
+Serial.println("La qualite de l air est bonne");
+}
+}
+
+for (int i=0; i<10; i++)
+{
+valeurF=analogRead(A0); // conversion AN
+sommeF=sommeF+valeurF; // somme de 10 échantillons
+moyenneF=sommeF/echantillonF; // calcul de la moyenne de 10 échantillons
+}
+sommeF=0;
+Serial.print("ValeurFlamme=");
+Serial.println(moyenneF);
+
+//if (currentMillis - previousMillis1 >= BLINK_INTERVAL) {
+//previousMillis1 = currentMillis;
+if (valeurF>420)
+{
+Serial.println("attention au feu");
+}
+else
+{
+Serial.println("tout est bon, pas de feu");
+  
+}
+delay(1000);
+previousMillis=currentMillis;
+}
 
 /****************** Choix entre flamme et air via Serial Commands ***************************/
 
   if ( Serial.available() )
-  {
+  { 
     char c = toupper(Serial.read());
-    if ( c == 'T' && FouA == 0 ){      
-      Serial.println(F("*** CHANGING TO TRANSMIT ROLE -- PRESS 'R' TO SWITCH BACK"));
-      FouA = 1;                  // Become the primary transmitter (Air)
-     
+    if ( c == 'A' && FouA == 1 ){      
+      Serial.println(F("*** CHANGING TO Airquality-- PRESS 'F' TO SWITCH BACK"));
+      FouA = 0;                  // Become the Air
     
    }else
-    if ( c == 'R' && FouA == 1 ){
-      Serial.println(F("*** CHANGING TO RECEIVE Flame -- PRESS 'T' TO SWITCH BACK"));      
-       FouA = 0;                // Become the primary receiver ( Flame)
-       Serial.println(F("Bravo"));
+    if ( c == 'F' && FouA == 0 ){
+      Serial.println(F("*** CHANGING TO Flame -- PRESS 'A' TO SWITCH BACK"));      
+       FouA = 1;                // Become the Flame
+    }
+    else
+    if ( c == 'P' && ((FouA == 1) or (FouA==0))){
+      Serial.println(F("*** CHANGING TO Flame and Air -- PRESS 'A' or 'F' TO SWITCH BACK"));      
+       FouA = 2;                // Become the Flame
     }
   }
 }
 
 
 /**************************** Envoie des données sur Python   ******************************/
+
+
+
+
+
+/**************************** Partie Nrf ********************************************/
+
+
+
+
 
 
