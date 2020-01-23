@@ -5,10 +5,10 @@
 ## Contexte
 Vous trouverez ici les informations concernant la connexion de deux BBB à travers des modules nRF
 
+```
 Version OS : BBB to BBB
-
 Communication : Module nRF24L01
-
+```
 
 ## BeagleBone Black
 Nous avons relié la BBB à notre PC via USB. Après le démarrage nous nous sommes connecté via l'interface WEB : 192.168.7.2:3000 
