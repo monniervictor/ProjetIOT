@@ -1,4 +1,4 @@
-# Projet IOT
+# Projet IOT : vTARR
 
 Bonjour à tous : lien d'introduction à github : https://guides.github.com/activities/hello-world/
 
