@@ -94,6 +94,7 @@ Lancer l'installation
 ## Communication
 
 Nous avons créé un code simplifié pour s'assurer de la bonne communication entre les deux modules nRF
+
 (Voir le code XXXX.cpp dans rf24libs/RF24/examples_linux)
 > cd rf24libs/RF24/examples_linux  
 
