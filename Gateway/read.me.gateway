@@ -1,1 +1,17 @@
 
+####Context
+Version :
+BBB to BBB
+Communication : Module nRF24L01
+
+####BeagleBone
+##Configuration IP
+
+
+##Configuration des Pins
+
+
+##Librairie RF24
+
+
+##Communication
