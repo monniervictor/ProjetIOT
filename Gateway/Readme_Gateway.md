@@ -1,14 +1,20 @@
 # Beagle Bone et module nRF
 
+---
+
 ## Contexte
 Vous trouverez ici les informations concernant la connexion de deux BBB à travers des modules nRF
 
-Version OS :BBB to BBB
+Version OS : BBB to BBB
 
 Communication : Module nRF24L01
 
+---
+
 ## BeagleBone Black
 Nous avons relié la BBB à notre PC via USB. Après le démarrage nous nous sommes connecté via l'interface WEB : 192.168.7.2:3000 
+
+---
 
 ## Configuration IP
 
@@ -28,6 +34,7 @@ Nous relançons ensuite le service networking:
 > service networking reload
 > service networking restart
 
+---
 
 ## Configuration des Pins
 
@@ -35,16 +42,17 @@ Les bus 2.0 et 2.1 sont présents sur les slots 1 2 et 4 du microBUS.
 Dans le cas où les bus ne sont pas configurés, il faut vérifier dans le fichier /boot/uEnv.txt que les BUS Spi sont bien activés.
 
 Vous devez avoir ces lignes :
-> uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV0-00A0.dtbo]
-
-> uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV1-00A0.dtbo]
+```
+uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV0-00A0.dtbo]
+uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV1-00A0.dtbo]
+```
 
 Ensuite, si vous avez des conflits entre le Spi et le HDMI, vous pouvez les désactiver par précaution :
-> uboot_overlay_options:[disable_uboot_overlay_video=1]
-
-> uboot_overlay_options:[disable_uboot_overlay_audio=1]
-
-> uboot_overlay_options:[enable_uboot_overlays=1]
+```
+uboot_overlay_options:[disable_uboot_overlay_video=1]
+uboot_overlay_options:[disable_uboot_overlay_audio=1]
+uboot_overlay_options:[enable_uboot_overlays=1]
+```
 
 Suivant la version que vous possédez, vous aurez différents moyens de vérifier que les BUS sont actifs.
 
@@ -91,6 +99,8 @@ Associer un mode :
 
 Pour d'autres infos, vous référer au man de cet utilitaire.
 
+---
+
 ## Librairie RF24
 
 Télécharger le fichier install.sh de http://tmrh20.github.io/RF24Installer/RPi/install.sh
@@ -102,6 +112,7 @@ Modifier les droits pour l'utiliser
 Lancer l'installation
 > ./install.sh 
 
+---
 
 ## Communication
 
