@@ -1,4 +1,4 @@
-# ProjetIOT
+# Projet IOT
 
 Bonjour à tous : lien d'introduction a github : https://guides.github.com/activities/hello-world/
 
@@ -7,8 +7,6 @@ Ensuite pour apporter la nouvelle version du fichier -> nouvelle "pull resquest"
 
 Ne pas faire : merge la master avec une branche qui contient moins de ficheirs/dossiers que la master. 
 Les fichiers n'etant pas dans la branche seront supprimé
-
-
 
 
 Pour ce projet IOT nous avons décidé d'un scénario de détection d'incendie ainsi que de mesure de la qualité de l'air dans le milieu industriel.
