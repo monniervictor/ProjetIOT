@@ -1,6 +1,6 @@
 Pour la creation du cloud nous avons choisi la solution azure grâce aux 100$ offert pour les étudiants. 
 
-# Readme Cloud : 
+# Readme Cloud :  
 L'intégralité des fichiers de configurations seront upload dans ce git.
 Afin d'éviter les services IOT tout fait, nous avons décidé de tout faire à partir d'un serveur Ubuntu 18.04.
 Sur ce serveur nous avons installé :
