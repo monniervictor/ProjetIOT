@@ -13,19 +13,20 @@ Nous avons relié la BBB à notre PC via USB. Après le démarrage nous nous som
 ## Configuration IP
 
 Pour ne pas avoir de problème avec les priorités de gestionaires réseaux, nous avons supprimer le module connman
-  sudo apt remove connman
+> sudo apt remove connman
+
 Dans /etc/network/interfaces Nous nous sommes ensuite directement connecté sur le réseau de CPE en utilisant une @ disponible : 
-  inet iface eth0 static
-  address 134.114.51.125/23
-  gateway 134.114.49.1
+> inet iface eth0 static
+> address 134.114.51.125/23
+> gateway 134.114.49.1
 
 Configuration du DNS dans /etc/resolv.conf
-  nameserver 134.114.49.16
-  nameserver 134.114.49.19
+> nameserver 134.114.49.16
+> nameserver 134.114.49.19
 
 Nous relançons ensuite le service networking:
-  service networking reload
-  service networking restart
+> service networking reload
+> service networking restart
 
 
 ## Configuration des Pins
@@ -33,15 +34,18 @@ Nous relançons ensuite le service networking:
 Les bus 2.0 et 2.1 sont présents sur les slots 1 2 et 4 du microBUS.
 Dans le cas où les bus ne sont pas configurés, il faut vérifier dans le fichier /boot/uEnv.txt que les BUS Spi sont bien activés.
 Vous devez avoir ces lignes :
-- 		uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV0-00A0.dtbo]
-- 		uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV1-00A0.dtbo]
+  uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV0-00A0.dtbo]
+  uboot_overlay_options:[uboot_overlay_addr4=/lib/firmware/BB-SPIDEV1-00A0.dtbo]
 Ensuite, si vous avez des conflits entre le Spi et le HDMI, vous pouvez les désactiver par précaution :
-- 		uboot_overlay_options:[disable_uboot_overlay_video=1]
-- 		uboot_overlay_options:[disable_uboot_overlay_audio=1]
--     uboot_overlay_options:[enable_uboot_overlays=1]
+  uboot_overlay_options:[disable_uboot_overlay_video=1]
+  uboot_overlay_options:[disable_uboot_overlay_audio=1]
+  uboot_overlay_options:[enable_uboot_overlays=1]
+
 Suivant la version que vous possédez, vous aurez différents moyens de vérifier que les BUS sont actifs
+
 En version debian 8.6, kernel 4.4.X, vous pouvez affichez le fichier slots de la manière suivante :
--     cat /sys/devices/platform/bone_capemgr/slots
+>  cat /sys/devices/platform/bone_capemgr/slots
+
 Sur d'autres version, vous pouvez pleurer. En effet, le fichier slots n'est plus géré sur les versions supérieures à 4.4.X
 Vous pouvez donc uniquement vérifier les BUS Spi actifs avec ls /dev/spi* mais vous aurez moins d'infos.
 Normalement il y en a 4 : le 1.0, 1.1, 2.0, 2.1
