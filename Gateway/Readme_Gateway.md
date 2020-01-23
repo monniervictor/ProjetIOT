@@ -9,12 +9,10 @@ Version OS : BBB to BBB
 
 Communication : Module nRF24L01
 
----
 
 ## BeagleBone Black
 Nous avons relié la BBB à notre PC via USB. Après le démarrage nous nous sommes connecté via l'interface WEB : 192.168.7.2:3000 
 
----
 
 ## Configuration IP
 
@@ -34,7 +32,6 @@ Nous relançons ensuite le service networking:
 > service networking reload
 > service networking restart
 
----
 
 ## Configuration des Pins
 
@@ -99,7 +96,7 @@ Associer un mode :
 
 Pour d'autres infos, vous référer au man de cet utilitaire.
 
----
+
 
 ## Librairie RF24
 
@@ -112,7 +109,7 @@ Modifier les droits pour l'utiliser
 Lancer l'installation
 > ./install.sh 
 
----
+
 
 ## Communication
 
