@@ -1,7 +1,8 @@
-Autors : Robin DUCRAY & Anthony SEGUE
+# Beagle Bone et module nRF
 
+## Context
+Vous trouverez ici les informations concernant la connexion de deux BBB à travers des modules nRF
 
-##Context
 Version OS :
 BBB to BBB
 Communication : Module nRF24L01
@@ -9,7 +10,7 @@ Communication : Module nRF24L01
 #BeagleBone Black
 Nous avons relié la BBB à notre PC via USB. Après le démarrage nous nous sommes connecté via l'interface WEB : 192.168.7.2:3000 
 
-#Configuration IP
+# Configuration IP
 
 Pour ne pas avoir de problème avec les priorités de gestionaires réseaux, nous avons supprimer le module connman
   sudo apt remove connman
@@ -27,7 +28,7 @@ Nous relançons ensuite le service networking:
   service networking restart
 
 
-#Configuration des Pins
+# Configuration des Pins
 
 Les bus 2.0 et 2.1 sont présents sur les slots 1 2 et 4 du microBUS.
 Dans le cas où les bus ne sont pas configurés, il faut vérifier dans le fichier /boot/uEnv.txt que les BUS Spi sont bien activés.
@@ -64,7 +65,7 @@ config-pin -q PX_XX vous permet de voir le mode et l'état en cours sur le pin
 pour y associer un mode, config-pin PX_XX YYY, avec YYY un mode tel que spi, uart, spi_cs, spi_sclk
 pour d'autres infos, vous référer au man de cet utilitaire.
 
-#Librairie RF24
+# Librairie RF24
 
 Télécharger le fichier install.sh de http://tmrh20.github.io/RF24Installer/RPi/install.sh
   wget http://tmrh20.github.io/RF24Installer/RPi/install.sh 
@@ -74,7 +75,7 @@ Lancer l'installation
   ./install.sh 
 
 
-#Communication
+# Communication
 
 Nous avons créé un code simplifié pour s'assurer de la bonne communication entre les deux modules nRF
 Voir le code XXXX.cpp dans rf24libs/RF24/examples_linux
