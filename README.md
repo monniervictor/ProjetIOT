@@ -5,8 +5,8 @@ Bonjour à tous : lien d'introduction a github : https://guides.github.com/activ
 Pour modifier un ficher -> creer une nouvelle branche à partir de la branche master -> puis modifier un seul ficher uniquement.
 Ensuite pour apporter la nouvelle version du fichier -> nouvelle "pull resquest" puis "merge".
 
-Ne pas faire : merge la master avec une branche qui contient moins de ficheirs/dossiers que la master. 
-Les fichiers n'etant pas dans la branche seront supprimé
+Ne pas faire : merge la master avec une branche qui contient moins de fichiers/dossiers que la master. 
+Les fichiers n'étant pas dans la branche seront supprimés.
 
 
 Pour ce projet IOT nous avons décidé d'un scénario de détection d'incendie ainsi que de mesure de la qualité de l'air dans le milieu industriel.
