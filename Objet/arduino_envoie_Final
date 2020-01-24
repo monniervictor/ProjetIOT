@@ -1,0 +1,206 @@
+/*******************************************************************
+ Chaque seconde, un nombre est émis par une carte Arduino munie
+ d'un module nRF24L01.
+ Ce message peut être capté par un autre Arduino, ou par un Raspberry Pi.
+ http://electroniqueamateur.blogspot.ca/2017/02/communication-par-nrf24l01-entre-deux.html
+********************************************************************/
+
+#include <SPI.h>
+#include "nRF24L01.h"
+#include "RF24.h"
+// Affectation des broches
+#define AN A0 // broche de sortie du module
+#define AN A1
+#define AN A2
+int valeurF;
+int echantillonF=10;
+unsigned long sommeF=0;
+unsigned long moyenneF;
+unsigned long previousMillis = 0;
+unsigned long millis();
+const unsigned long BLINK_INTERVAL = 1000;
+unsigned long currentMillis = millis();
+int FouA = 2;    // choice flame or qualityair
+int valeurA;
+int echantillon=10;
+unsigned long somme=0;
+unsigned long moyenne;
+int compteur = 0;
+
+RF24 radio(47, 45);
+
+const uint64_t addresse = 0x3131313131;
+
+const int taille = 32;
+
+char message[taille + 1];
+char message1[taille + 1];
+char separateur[2]= {":"};
+
+
+void setup(void)
+{
+  Serial.begin(9600);
+
+  Serial.println("Emetteur de donnees");
+
+  radio.begin();
+
+  radio.openWritingPipe(addresse);
+
+}
+
+void loop(void)
+{
+ ///////////////////////////////////////////////cas de la flamme///////////////////////////////////////////////////
+currentMillis=millis();
+/*String my_name;
+ if ( Serial.available() )
+ {
+    my_name = Serial.readStringUntil('\n');
+    Serial.println("Nice to meet you, " + my_name + "!");
+ }*/
+if (FouA == 1)
+{
+
+if ( currentMillis - previousMillis >= BLINK_INTERVAL)
+{
+for (int i=0; i<10; i++)
+{
+valeurF=analogRead(A0); // conversion AN
+sommeF=sommeF+valeurF; // somme de 10 échantillons
+moyenneF=sommeF/echantillonF; // calcul de la moyenne de 10 échantillons
+}
+sommeF=0;
+Serial.print("ValeurFlamme=");
+Serial.println(moyenneF);
+Serial.println(currentMillis);
+
+if (valeurF>420)
+{
+Serial.println("attention au feu");
+}
+else
+{
+Serial.println("tout est bon, pas de feu");
+  
+}
+delay(100);
+previousMillis=currentMillis;
+}
+}
+
+////////////////////////////////////////////cas air /////////////////////////////////////////////////////////
+if (FouA == 0)
+{
+if ( currentMillis - previousMillis >= BLINK_INTERVAL)
+{
+
+for (int i=0; i<10; i++)
+{
+valeurA=analogRead(A2); // conversion AN
+somme=somme+valeurA; // somme de 10 échantillons
+moyenne=somme/echantillon; // calcul de la moyenne de 10 échantillons
+delay(10);
+}
+somme=0;
+Serial.print("ValeurAir=");
+Serial.println(moyenne);
+if (valeurA>600)
+{
+Serial.println("La qualite de l air est mediocre");
+}
+else
+{
+Serial.println("La qualite de l air est bonne");
+}
+delay(1000);
+previousMillis = currentMillis ;
+}
+}
+
+/**************************************** Cas air ET Flamme **********************************/
+
+if (FouA == 2)
+{
+if ( currentMillis - previousMillis >= BLINK_INTERVAL)
+{
+
+for (int i=0; i<10; i++)
+{
+valeurA=analogRead(A2); // conversion AN
+somme=somme+valeurA; // somme de 10 échantillons
+moyenne=somme/echantillon; // calcul de la moyenne de 10 échantillons
+delay(10);
+}
+somme=0;
+Serial.print("ValeurAir=");
+Serial.println(moyenne);
+if (valeurA>600)
+{
+Serial.println("La qualite de l air est mediocre");
+}
+else
+{
+Serial.println("La qualite de l air est bonne");
+}
+for (int i=0; i<10; i++)
+{
+valeurF=analogRead(A0); // conversion AN
+sommeF=sommeF+valeurF; // somme de 10 échantillons
+moyenneF=sommeF/echantillonF; // calcul de la moyenne de 10 échantillons
+}
+sommeF=0;
+Serial.print("ValeurFlamme=");
+Serial.println(moyenneF);
+
+//if (currentMillis - previousMillis1 >= BLINK_INTERVAL) {
+//previousMillis1 = currentMillis;
+if (valeurF>420)
+{
+Serial.println("attention au feu");
+}
+else
+{
+Serial.println("tout est bon, pas de feu");
+  
+}
+delay(1000);
+previousMillis=currentMillis;
+}
+}
+/****************** Choix entre flamme et air via Serial Commands ***************************/
+
+  if ( Serial.available() )
+  { 
+    char c = toupper(Serial.read());
+    if ( c == 'A' && FouA == 1 ){      
+      Serial.println(F("*** CHANGING TO Airquality-- PRESS 'F' TO SWITCH BACK"));
+      FouA = 0;                  // Become the Air
+    
+   }else
+    if ( c == 'F' && FouA == 0 ){
+      Serial.println(F("*** CHANGING TO Flame -- PRESS 'F' TO SWITCH BACK or 'P' for both sensor"));      
+       FouA = 1;                // Become the Flame
+    }
+    else
+    if ( c == 'P' && ((FouA == 1) or (FouA==0))){
+      Serial.println(F("*** CHANGING TO Flame and Air -- PRESS 'F' TO SWITCH BACK or 'P' for both"));      
+       FouA = 2;                // Become the Flame
+    }
+  }
+
+///////////////////////////////////////////////// Partie Nrf /////////////////////////////////////////
+  compteur++;
+  
+  itoa(moyenneF, message, 10);
+  itoa(moyenne , message1,10);
+  strcat (message, separateur);
+  strcat (message, message1);
+  Serial.print("J'envoie la valeur : ");
+  Serial.println(message);
+  radio.write( message, taille );
+  
+  delay(1000);
+
+}
