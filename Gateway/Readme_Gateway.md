@@ -113,15 +113,17 @@ Lancer l'installation
 
 ## Communication
 
-Nous avons créé un code simplifié pour s'assurer de la bonne communication entre les deux modules nRF
+Nous avons créé un code simplifié pour s'assurer de la bonne communication entre les deux modules nRF, celui-ci permet de recevoir les données envoyées par l'Arduino. 
 
-(Voir le code XXXX.cpp dans rf24libs/RF24/examples_linux)
-> cd rf24libs/RF24/examples_linux  
+(Voir le code JPP.cpp dans rf24libs/RF24/examples_linux)
+> cd rf24libs/RF24/examples_linux/JPP.cpp  
 
-Configurer les pins comme vu dans la partie $Configuration des Pins
+Configurer les pins comme vu dans la partie $Configuration des Pins, dans notre cas, nous sommes en radio (60,20)
 > radio(60,20)
 
 Compiler et lancer les codes
 > make
-> sudo ./XXXX
+> sudo ./JPP.cpp
+
+
 
