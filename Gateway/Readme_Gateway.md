@@ -122,8 +122,9 @@ Configurer les pins comme vu dans la partie $Configuration des Pins, dans notre 
 > radio(60,20)
 
 Compiler et lancer les codes
-> make
-> sudo ./JPP.cpp
+> make JPP
+
+> sudo ./JPP
 
 
 
